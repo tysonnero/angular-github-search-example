@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>GitHub Search</title>
+    <link href="css/main.css" type="text/css" rel="stylesheet">
+</head>
+<body ng-app="githubsearch">
+    <div ng-controller="SearchCtrl">
+        <div id="search">
+            Input a search query and hit Enter
+            <input ng-model="query" placeholder="search" ng-keyup="$event.keyCode == 13 && search()">
+
+            <div class="repo" ng-repeat="repo in repos" ng-click="open(repo.full_name); getUserRepos(repo.owner.login)">
+                <strong>{{ repo.full_name }}</strong>
+
+                <p>{{ repo.description }}</p>
+            </div>
+        </div>
+        <div id="repo" ng-show="activeRepo">
+            <strong>{{ activeRepo.full_name }}</strong> <em>Watched by {{ activeRepo.watchers_count }} people.</em>
+            <pre>{{ activeRepo.readme }}</pre>
+        </div>
+        <div id="user">
+            <strong>{{ user.login }}</strong>
+
+            <div class="repo" ng-repeat="repo in user.repos" ng-click="open(repo.full_name)">
+                <strong>{{ repo.name }}</strong>
+
+                <p>{{ repo.description }}</p>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/search-controller.js"></script>
+    <script src="js/github-service.js"></script>
+</body>
+</html>
